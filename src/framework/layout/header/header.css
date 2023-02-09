@@ -1,0 +1,9 @@
+.header{
+    width:"100%";
+    background-color: #eee;
+}
+#txt-search{
+    width: 160px;
+    padding: 10px;
+    border:1px solid #ccc;
+}
