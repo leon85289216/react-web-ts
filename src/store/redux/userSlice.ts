@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../index";
 import { login, getUserInfo } from "@/api/user"
-import { setAccessToken } from "@/utils/accessToken";
+import { setlocalUserInfo, getlocalUserInfo } from "@/utils/userInfo";
+
 
 
 // 为 slice state 定义一个类型
@@ -14,8 +15,8 @@ interface UserState {
 }
 
 // 使用该类型定义初始 state
-const initialState: UserState = {
-  accessToken: "xxxxxxx",
+const initialState: UserState = getlocalUserInfo() || {
+  accessToken: "",
   username: "",
   avatar: "",
   permissions: [],
@@ -51,8 +52,9 @@ export const userSlice = createSlice({
         avatar: "",
         permissions: [],
       });
-      setAccessToken("");
-      window.location.reload();
+      setlocalUserInfo("");
+      console.log("222222");
+      window.location.href = "/";
     },
   },
   extraReducers: (builder) => {
@@ -60,8 +62,6 @@ export const userSlice = createSlice({
       .addCase(loginAsync.fulfilled, (state, action) => {
         const { accessToken } = action.payload;
         state.accessToken = accessToken;
-        //更新localstorage中的accessToken
-        //  setAccessToken(accessToken ? accessToken : "");
       })
       .addCase(getUserInforAsync.fulfilled, (state, action) => {
         const datas = action.payload;
@@ -71,6 +71,8 @@ export const userSlice = createSlice({
             Object.assign(state, {
               ...datas
             });
+            //更新localstorage中的用户信息
+            setlocalUserInfo(state);
           }
         }
       });

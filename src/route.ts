@@ -8,5 +8,6 @@ export const routes = [
         element: 'login/login'
     }
 ]
-
-
+export const loadRoutes=()=>{
+    routes
+}

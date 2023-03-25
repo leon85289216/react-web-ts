@@ -1,7 +1,6 @@
 import { Menu } from 'antd';
 import './menu.css'
 import store from "@/store";
-import { useAppDispatch } from "@/store/hooks";
 import { Link } from 'react-router-dom'
 
 const { SubMenu } = Menu;
@@ -15,7 +14,6 @@ interface IMenu {
 
 const MenuComps: React.FC = () => {
 
-  const dispatch = useAppDispatch()
   const handleClick = (e: any) => {
     console.log('click ', e);
   }
@@ -36,6 +34,7 @@ const MenuComps: React.FC = () => {
       }
     </SubMenu>
   }
+
   // 渲染菜单
   const renderMenu = (item: IMenu) => {
     return item.items.length ? renderChildMenu(item) : renderNoChildMenu(item)
